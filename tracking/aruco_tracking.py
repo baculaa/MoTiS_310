@@ -128,16 +128,21 @@ class Tracker():
 
     def draw_path(self, path, image):
         initial_entry = 1
+        cv2.circle(image, (100, 100), 50, (255, 0, 255), 30)
         for entry in path:
+
             if initial_entry == 1:
-                cv2.circle(image, (int(entry[0]), int(entry[1])), 5, (255, 0, 255), 3)
+                print("where circle")
+                cv2.circle(image, (int(entry[0]), int(entry[1])), 50, (255, 0, 255), 30)
                 initial_entry = 0
                 prior_entry = entry
             else:
-                cv2.circle(image, (int(entry[0]), int(entry[1])), 5, (255, 0, 255), 3)
+                cv2.circle(image, (int(entry[0]), int(entry[1])), 50, (255, 0, 255), 30)
                 cv2.line(image, (int(prior_entry[0]), int(prior_entry[1])),
                         (int(entry[0]), int(entry[1])), (255, 0, 255), 2)
                 prior_entry = entry
+            cv2.imshow('frame', image)
+
 
     def create_map(self):
         # Init map that is the size of the camera view

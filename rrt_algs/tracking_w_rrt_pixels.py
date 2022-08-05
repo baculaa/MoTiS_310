@@ -45,7 +45,7 @@ class Planner():
                 print(path)
                 tracker.draw_path(path,colored_frame)
 
-                cv2.imshow('frame', colored_frame)
+                # cv2.imshow('frame', colored_frame)
 
 
 if __name__ == '__main__':
