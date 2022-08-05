@@ -20,6 +20,8 @@ MAX_BOTS = 2
 # 0 -> in-built camera, 1 -> external USB webcam
 VIDEO_SOURCE_ID = 0  ##TODO: This should be parameterized
 WAIT_TIME = 1
+ORIGIN_ID = 2
+MAX_ID = 3
 
 
 class Tracker():
@@ -149,19 +151,16 @@ class Tracker():
 
                             for point in pt:
                                 points_list.extend(list(point))
-                            if index_number == 0:
+                            if index_number == ORIGIN_ID:
                                 self._origin_corners = points_list
-                            elif index_number == 1:
+                            elif index_number == MAX_ID:
                                 self._max_corners = points_list
                             else:
                                 self.define_coordinates(self._origin_corners, self._max_corners)
                                 x_center,y_center = self.get_center_from_corners(points_list,colored_frame)
                                 self._centers.append([x_center,y_center])
                                 angle = self.get_vectors_and_angle(points_list,colored_frame)
-
-
-
-
+                                print(self._origin_corners,self._max_corners)
 
                         except IndexError:
                             pass
