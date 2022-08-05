@@ -19,6 +19,14 @@ import sys
 
 class Tracker():
     def __init__(self):
+        # Generally:
+        # 0 -> in-built camera, 1 -> external USB webcam
+        self.VIDEO_SOURCE_ID = 0
+        self.WAIT_TIME = 1
+        self.ORIGIN_ID = 1
+        self.MAX_ID = 0
+        self.ROBOT_IDS = []
+
 
         print("init cap")
         self._cap = cv2.VideoCapture(self.VIDEO_SOURCE_ID, cv2.CAP_DSHOW)
@@ -31,20 +39,14 @@ class Tracker():
         print("init time")
         self._start_time = time.time()
 
-        # Maximum number of robots in the scene
-        self.MAX_BOTS = 2
-        # Generally:
-        # 0 -> in-built camera, 1 -> external USB webcam
-        self.VIDEO_SOURCE_ID = 0
-        self.WAIT_TIME = 1
-        self.ORIGIN_ID = 0
-        self.MAX_ID = 1
-        self.ROBOT_IDS = []
 
         self._origin_corners = [4.0, 48.0, 5.0, 15.0, 33.0, 13.0, 34.0, 46.0]
         self._max_corners = [896.0, 536.0, 899.0, 508.0, 924.0, 506.0, 922.0, 533.0]
+        self._x_center_origin = self._origin_corners[0]
+        self._y_center_origin = self._origin_corners[1]
 
-
+        self._x_center_max = self._max_corners[0]
+        self._y_center_max = self._max_corners[1]
 
     def get_args(self):
         ### Get camera field of view dimensions ###
@@ -122,105 +124,125 @@ class Tracker():
 
         return obstacle
 
-    def track_every_frame(self):
+    def draw_path(self, path, image):
+        initial_entry = 1
+        for entry in path:
+            if initial_entry == 1:
+                cv2.circle(image, (int(entry[0]), int(entry[1])), 5, (255, 0, 255), 3)
+                initial_entry = 0
+                prior_entry = entry
+            else:
+                cv2.circle(image, (int(entry[0]), int(entry[1])), 5, (255, 0, 255), 3)
+                cv2.line(image, (int(prior_entry[0]), int(prior_entry[1])),
+                        (int(entry[0]), int(entry[1])), (255, 0, 255), 2)
+                prior_entry = entry
+
+    def create_map(self):
+        # Init map that is the size of the camera view
+        self.map = np.zeros((self._x_center_max,self._y_center_max))
+
+        # Add obstacles to map
+        for obstacle in range(len(self._obstacle_array)%4):
+            offset = obstacle*4
+            for x_pixel in range(self._obstacle_array[0+offset],self._obstacle_array[2+offset]):
+                for y_pixel in range(self._obstacle_array[1+offset],self._obstacle_array[3+offset]):
+                    self.map[x_pixel,y_pixel] = 1
+
+    def track_frame(self):
         # Get camera FOV dimensions
         args = self.get_args()
         cap_width = args.width
         cap_height = args.height
 
-        # While camera is detected
-        while self._isCamera:
-            ret, frame = self._cap.read()
-            if not ret:
-                print("No camera source")
-                self._isCamera = False
-                break
 
-            # Set camera FOV width and height
-            self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, cap_width)
-            self._cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cap_height)
+        ret, frame = self._cap.read()
+        if not ret:
+            print("No camera source")
+            self._isCamera = False
 
-            # Open window with camera view
-            cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
-            cv2.resizeWindow('frame', cap_width,cap_height)
-            colored_frame = frame
-            cv2.imshow('frame', colored_frame)
+        # Set camera FOV width and height
+        self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, cap_width)
+        self._cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cap_height)
+
+        # Open window with camera view
+        cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('frame', cap_width,cap_height)
+        colored_frame = frame
+        cv2.imshow('frame', colored_frame)
 
 
-            # Get aruco tag parameters
-            parameters = aruco.DetectorParameters_create()
+        # Get aruco tag parameters
+        parameters = aruco.DetectorParameters_create()
 
-            # List of detected markers
-            self._detected_markers_in_this_frame = aruco.detectMarkers(colored_frame, self._dictionary,
-                                                                       parameters=parameters)
+        # List of detected markers
+        self._detected_markers_in_this_frame = aruco.detectMarkers(colored_frame, self._dictionary,
+                                                                   parameters=parameters)
 
-            # Corner pixels, aruco id numbers, and rejected tags
-            corners, ids, rejectedImgPoints = self._detected_markers_in_this_frame
+        # Corner pixels, aruco id numbers, and rejected tags
+        corners, ids, rejectedImgPoints = self._detected_markers_in_this_frame
 
-            # Init obstacle flag
-            self._first_obstacle = 0
+        # Init obstacle flag
+        self._first_obstacle = 1
+        self._obstacle_array = [(100,100,120,120),(250,250,300,300)]
 
-            # If there are markers detected
-            if len(self._detected_markers_in_this_frame[0]) > 0:
-                # Init the list of robot markers
-                self._robots = []
-                # For every detected marker
-                for (fids, index) in zip(self._detected_markers_in_this_frame[0], self._detected_markers_in_this_frame[1]):
-                    for pt in fids:
-                        try:
-                            # Get the index number of the marker
-                            index_number = int(index[0])
-                            # Init the list of corner points
-                            points_list = []
+        # If there are markers detected
+        if len(self._detected_markers_in_this_frame[0]) > 0:
+            # Init the list of robot markers
+            self._robots = []
+            # For every detected marker
+            for (fids, index) in zip(self._detected_markers_in_this_frame[0], self._detected_markers_in_this_frame[1]):
+                for pt in fids:
+                    try:
+                        # Get the index number of the marker
+                        index_number = int(index[0])
+                        # Init the list of corner points
+                        points_list = []
 
-                            # For every point in the corners list
-                            for point in pt:
-                                # Add to the list of corners
-                                points_list.extend(list(point))
+                        # For every point in the corners list
+                        for point in pt:
+                            # Add to the list of corners
+                            points_list.extend(list(point))
 
-                            # If the markers is the origin
-                            if index_number == self.ORIGIN_ID:
-                                # SET ORIGIN
-                                self._origin_corners = points_list
-                            # If the marker is the max
-                            elif index_number == self.MAX_ID:
-                                # SET MAX
-                                self._max_corners = points_list
-                            elif index_number == any(self.ROBOT_IDS):
-                                # Define the coordinates based on the origin and max
-                                self.define_coordinates(self._origin_corners, self._max_corners)
-                                # Get the x,y of the center of the marker
-                                x_center, y_center = self.get_center_from_corners(points_list, colored_frame)
-                                # Add the center to the list of markers
-                                self._robots.append([x_center, y_center])
-                                # Get the angle of the marker
-                                angle = self.get_vectors_and_angle(points_list, colored_frame)
-                            # If the marker is not robot
+                        # If the markers is the origin
+                        if index_number == self.ORIGIN_ID:
+                            # SET ORIGIN
+                            self._origin_corners = points_list
+                        # If the marker is the max
+                        elif index_number == self.MAX_ID:
+                            # SET MAX
+                            self._max_corners = points_list
+                        elif index_number == any(self.ROBOT_IDS):
+                            # Define the coordinates based on the origin and max
+                            self.define_coordinates(self._origin_corners, self._max_corners)
+                            # Get the x,y of the center of the marker
+                            x_center, y_center = self.get_center_from_corners(points_list, colored_frame)
+                            # Add the center to the list of markers
+                            self._robots.append([x_center, y_center])
+                            # Get the angle of the marker
+                            angle = self.get_vectors_and_angle(points_list, colored_frame)
+                        # If the marker is not robot
+                        else:
+                            # FOR NOW ALL OBSTACLES
+                            # Define the coordinates based on the origin and max
+                            self.define_coordinates(self._origin_corners, self._max_corners)
+                            # Get the x,y of the center of the marker
+                            x_center,y_center = self.get_center_from_corners(points_list,colored_frame)
+
+                            if self._first_obstacle == 0:
+                                self._obstacle_array = [self.obstacle_define(x_center,y_center)]
+                                # Set obstacle flag to 1
+                                self._first_obstacle = 1
                             else:
-                                # FOR NOW ALL OBSTACLES
-                                # Define the coordinates based on the origin and max
-                                self.define_coordinates(self._origin_corners, self._max_corners)
-                                # Get the x,y of the center of the marker
-                                x_center,y_center = self.get_center_from_corners(points_list,colored_frame)
+                                self._obstacle_array.append(self.obstacle_define(x_center,y_center))
 
-                                if self._first_obstacle == 0:
-                                    self._obstacle_array = [self.obstacle_define(x_center,y_center)]
-                                    # Set obstacle flag to 1
-                                    self._first_obstacle = 1
-                                else:
-                                    self._obstacle_array.append(self.obstacle_define(x_center,y_center))
+                    except IndexError:
+                        pass
 
-                        except IndexError:
-                            pass
-
-                aruco.drawDetectedMarkers(colored_frame, self._detected_markers_in_this_frame[0],
+            self.create_map()
+            print(map)
+            aruco.drawDetectedMarkers(colored_frame, self._detected_markers_in_this_frame[0],
                                           self._detected_markers_in_this_frame[1])
-
-            cv2.imshow('frame', colored_frame)
-            if cv2.waitKey(self.WAIT_TIME) & 0xFF == ord('q'):
-                self._cap.release()
-                cv2.destroyAllWindows()
-                sys.exit()
+        return colored_frame
 
 
 

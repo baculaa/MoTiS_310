@@ -24,6 +24,7 @@ class SearchSpace(object):
         if any(len(i) != 2 for i in dimension_lengths):
             raise Exception("Dimensions can only have a start and end")
         if any(i[0] >= i[1] for i in dimension_lengths):
+            # THIS IS DUMB AF WHY CAN IT ONLY GO ONE DIRECTION??????? 
             # for i in dimension_lengths:
             #     print(i[0],i[1])
             raise Exception("Dimension start must be less than dimension end")

@@ -39,15 +39,4 @@ def rrt_star_wrap(x_min,x_max,y_min,y_max,obstacle_array):
     path = rrt.rrt_star()
 
 
-    # print(path[0][1])
-    # if len(path):
-    #     x = []
-    #     y = []
-    #     for i in range(len(path)):
-    #         x.append(path[i][0])
-    #         y.append(path[i][1])
-    #     print(x)
-    #     print(y)
-    #     plt.plot(x,y)
-    #     plt.show()
     return path
