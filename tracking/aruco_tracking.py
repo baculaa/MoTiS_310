@@ -45,8 +45,8 @@ class Tracker():
         self._x_center_origin = self._origin_corners[0]
         self._y_center_origin = self._origin_corners[1]
 
-        self._x_center_max = self._max_corners[0]
-        self._y_center_max = self._max_corners[1]
+        self._x_center_max = 1000
+        self._y_center_max = 1000
 
         self.maze = np.zeros((int(self._x_center_max),int(self._y_center_max)))
 
@@ -71,12 +71,10 @@ class Tracker():
         angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
         return angle
 
-    def define_coordinates(self,origin_corners,max_corners):
-        self._x_center_origin = abs(origin_corners[0] - origin_corners[4])
-        self._y_center_origin = abs(origin_corners[1] - origin_corners[5])
+    def define_coordinates(self,origin_corners,max_corners,frame):
+        self._x_center_origin,self._y_center_origin = self.get_center_from_corners(origin_corners,frame)
 
-        self._x_center_max = abs(max_corners[0] - max_corners[4])
-        self._y_center_max = abs(max_corners[1] - max_corners[5])
+        self._x_center_max,self._y_center_max = self.get_center_from_corners(max_corners,frame)
 
     def get_vectors_and_angle(self,corner_points,frame):
         x,y = self.get_center_from_corners(corner_points,frame)
@@ -121,40 +119,36 @@ class Tracker():
 
         # Pad obstacle from center
         ## It's a weird way to do it, but the planner only takes square obstacles
-        obstacle = (obs_x - obstacle_padding, obs_y - obstacle_padding, obs_x + obstacle_padding,
-                        obs_y + obstacle_padding)
+        obstacle = (int(obs_x - obstacle_padding), int(obs_y - obstacle_padding), int(obs_x + obstacle_padding),
+                        int(obs_y + obstacle_padding))
 
         return obstacle
 
     def draw_path(self, path, image):
         initial_entry = 1
-        cv2.circle(image, (100, 100), 50, (255, 0, 255), 30)
         for entry in path:
-
             if initial_entry == 1:
-                print("where circle")
-                cv2.circle(image, (int(entry[0]), int(entry[1])), 50, (255, 0, 255), 30)
+                # print("where circle")
+                cv2.circle(image, (entry), 50, (155, 0, 255), 30)
                 initial_entry = 0
                 prior_entry = entry
             else:
-                cv2.circle(image, (int(entry[0]), int(entry[1])), 50, (255, 0, 255), 30)
-                cv2.line(image, (int(prior_entry[0]), int(prior_entry[1])),
-                        (int(entry[0]), int(entry[1])), (255, 0, 255), 2)
+                cv2.circle(image, (entry), 50, (155, 0, 255), 30)
+                cv2.line(image, (prior_entry),
+                        (entry), (155, 0, 255), 2)
                 prior_entry = entry
-            cv2.imshow('frame', image)
 
 
-    def create_map(self):
+
+    def create_map(self,height,width):
         # Init map that is the size of the camera view
-        self.maze = np.zeros((int(self._x_center_max),int(self._y_center_max)))
-
+        self.maze = np.zeros((int(width),int(height)))
         # Add obstacles to map
         for obstacle in self._obstacle_array:
-            # print(obstacle)
             for x_pixel in range(int(obstacle[0]),int(obstacle[2])):
                 for y_pixel in range(int(obstacle[1]),int(obstacle[3])):
                     self.maze[x_pixel,y_pixel] = 1
-
+        np.savetxt("foo.csv", self.maze, delimiter=",")
 
     def track_frame(self):
         # Get camera FOV dimensions
@@ -167,6 +161,9 @@ class Tracker():
         if not ret:
             print("No camera source")
             self._isCamera = False
+        # else:
+            # print("Camera ready")
+
 
         # Set camera FOV width and height
         self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, cap_width)
@@ -188,15 +185,16 @@ class Tracker():
 
         # Corner pixels, aruco id numbers, and rejected tags
         corners, ids, rejectedImgPoints = self._detected_markers_in_this_frame
-
+        # print("here")
         # Init obstacle flag
         self._first_obstacle = 0
-        self._obstacle_array = [(100,100,120,120),(250,250,300,300)]
+        self._obstacle_array = [(100,100,110,110)]
 
         # If there are markers detected
         if len(self._detected_markers_in_this_frame[0]) > 0:
             # Init the list of robot markers
             self._robots = []
+
             # For every detected marker
             for (fids, index) in zip(self._detected_markers_in_this_frame[0], self._detected_markers_in_this_frame[1]):
                 for pt in fids:
@@ -221,7 +219,7 @@ class Tracker():
                             self._max_corners = points_list
                         elif index_number == any(self.ROBOT_IDS):
                             # Define the coordinates based on the origin and max
-                            self.define_coordinates(self._origin_corners, self._max_corners)
+                            self.define_coordinates(self._origin_corners, self._max_corners,colored_frame)
                             # Get the x,y of the center of the marker
                             x_center, y_center = self.get_center_from_corners(points_list, colored_frame)
                             # Add the center to the list of markers
@@ -232,7 +230,7 @@ class Tracker():
                         else:
                             # FOR NOW ALL OBSTACLES
                             # Define the coordinates based on the origin and max
-                            self.define_coordinates(self._origin_corners, self._max_corners)
+                            self.define_coordinates(self._origin_corners, self._max_corners,colored_frame)
                             # Get the x,y of the center of the marker
                             x_center,y_center = self.get_center_from_corners(points_list,colored_frame)
 
@@ -246,8 +244,9 @@ class Tracker():
                     except IndexError:
                         pass
 
-            self.create_map()
-            self._first_obstacle = 1
+            print("Obstacle array: ",self._obstacle_array)
+            self.create_map(cap_height,cap_width)
+
             # print(self.maze)
             aruco.drawDetectedMarkers(colored_frame, self._detected_markers_in_this_frame[0],
                                           self._detected_markers_in_this_frame[1])
@@ -255,9 +254,10 @@ class Tracker():
 
 
 
-# if __name__ == "__main__":
-#     watch_dogs = Tracker()
-#     watch_dogs.track_every_frame()
+if __name__ == "__main__":
+    watch_dogs = Tracker()
+    while watch_dogs._isCamera:
+        watch_dogs.track_frame()
 
 
 

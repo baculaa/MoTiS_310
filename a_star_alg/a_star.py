@@ -56,7 +56,8 @@ def astar(maze, start, end):
 
         # Generate children
         children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
+        step_size = 1
+        for new_position in [(0, -step_size), (0, step_size), (-step_size, 0), (step_size, 0), (-step_size, -step_size), (-step_size, step_size), (step_size, -step_size), (step_size, step_size)]: # Adjacent squares
 
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
