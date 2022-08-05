@@ -48,6 +48,8 @@ class Tracker():
         self._x_center_max = self._max_corners[0]
         self._y_center_max = self._max_corners[1]
 
+        self.maze = np.zeros((int(self._x_center_max),int(self._y_center_max)))
+
     def get_args(self):
         ### Get camera field of view dimensions ###
         parser = argparse.ArgumentParser()
@@ -139,14 +141,15 @@ class Tracker():
 
     def create_map(self):
         # Init map that is the size of the camera view
-        self.map = np.zeros((self._x_center_max,self._y_center_max))
+        self.maze = np.zeros((int(self._x_center_max),int(self._y_center_max)))
 
         # Add obstacles to map
-        for obstacle in range(len(self._obstacle_array)%4):
-            offset = obstacle*4
-            for x_pixel in range(self._obstacle_array[0+offset],self._obstacle_array[2+offset]):
-                for y_pixel in range(self._obstacle_array[1+offset],self._obstacle_array[3+offset]):
-                    self.map[x_pixel,y_pixel] = 1
+        for obstacle in self._obstacle_array:
+            # print(obstacle)
+            for x_pixel in range(int(obstacle[0]),int(obstacle[2])):
+                for y_pixel in range(int(obstacle[1]),int(obstacle[3])):
+                    self.maze[x_pixel,y_pixel] = 1
+
 
     def track_frame(self):
         # Get camera FOV dimensions
@@ -182,7 +185,7 @@ class Tracker():
         corners, ids, rejectedImgPoints = self._detected_markers_in_this_frame
 
         # Init obstacle flag
-        self._first_obstacle = 1
+        self._first_obstacle = 0
         self._obstacle_array = [(100,100,120,120),(250,250,300,300)]
 
         # If there are markers detected
@@ -239,7 +242,8 @@ class Tracker():
                         pass
 
             self.create_map()
-            print(map)
+            self._first_obstacle = 1
+            # print(self.maze)
             aruco.drawDetectedMarkers(colored_frame, self._detected_markers_in_this_frame[0],
                                           self._detected_markers_in_this_frame[1])
         return colored_frame

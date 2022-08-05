@@ -1,5 +1,3 @@
-import numpy as np
-
 
 class Node():
     """A node class for A* Pathfinding"""
@@ -68,7 +66,8 @@ def astar(maze, start, end):
                 continue
 
             # Make sure walkable terrain
-            if maze[node_position[0]][node_position[1]] != 0:
+            # print("ISSUE: ",node_position[0],node_position[1])
+            if maze[int(node_position[0])][int(node_position[1])] != 0:
                 continue
 
             # Create new node
@@ -99,7 +98,7 @@ def astar(maze, start, end):
             open_list.append(child)
 
 
-def main():
+def example():
 
     maze = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
@@ -119,5 +118,5 @@ def main():
     print(path)
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
