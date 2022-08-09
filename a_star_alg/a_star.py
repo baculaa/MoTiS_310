@@ -68,7 +68,8 @@ def astar(maze, start, end):
 
             # Make sure walkable terrain
             # print("ISSUE: ",node_position[0],node_position[1])
-            if maze[int(node_position[0])][int(node_position[1])] != 0:
+            if int(maze[int(node_position[0])][int(node_position[1])]) != 0:
+                print("THIS SHOULD BE 1: ",maze[int(node_position[0])][int(node_position[1])])
                 continue
 
             # Create new node
