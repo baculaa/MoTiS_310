@@ -3,6 +3,8 @@ geometryScript3.0 Documentation
 Hello, my name is Ethan Villalovoz and I am an REU student at Oregon State University: Robots in the Real World. I am a part of the CHARISMA Lab led by Dr. Heather Knight and under the mentorship of Alexandra Bacula. In this documentation, these are the steps of properly using the geometryScript3.0 python program. If there are any questions or inquiries about the program, please do not hesitate to contact me at my email: ethan.villalovoz@gmail.com. With that out of the way let's begin.
 
 Once you start running the program, you will immediately be prompted to select from the various shapes.
+<img width="979" alt="Screen Shot 2022-08-09 at 12 14 26 PM" src="https://user-images.githubusercontent.com/110315314/183742994-c2790a0f-7c30-474d-b450-be8dd61e860a.png">
+
 To properly enter a valid input, you must type the name of the shape you want. You do not need to worry about capitalization of any of the letters; however, having a space at the end of input or not including the dash (-) for “semi-circle”, it will continue the program as if you chose line as your input option.
 
 After you choose your wanted shape, you will see this on the console.
