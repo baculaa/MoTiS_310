@@ -147,7 +147,7 @@ class Tracker():
         for obstacle in self._obstacle_array:
             for x_pixel in range(int(obstacle[0]),int(obstacle[2])):
                 for y_pixel in range(int(obstacle[1]),int(obstacle[3])):
-                    self.maze[x_pixel,y_pixel] = 1
+                    self.maze[x_pixel,y_pixel] = int(1)
         np.savetxt("foo.csv", self.maze, delimiter=",")
 
     def track_frame(self):
