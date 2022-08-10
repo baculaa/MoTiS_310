@@ -25,7 +25,8 @@ class Tracker():
         self.WAIT_TIME = 1
         self.ORIGIN_ID = 1
         self.MAX_ID = 0
-        self.ROBOT_IDS = [2,4]
+        self.ROBOT_IDS = [2,4,5,8]
+        self.NUM_ROBOTS = len(self.ROBOT_IDS)
 
 
         print("init cap")
@@ -117,7 +118,7 @@ class Tracker():
     def obstacle_define(self,obs_x,obs_y):
         # FUNC: Pad the obstacle from its center point so it can be read by the planner
         # Pad constant (unit: pixels)
-        obstacle_padding = 35
+        obstacle_padding = 50
 
         # Pad obstacle from center
         ## It's a weird way to do it, but the planner only takes square obstacles
@@ -139,7 +140,6 @@ class Tracker():
                 cv2.line(image, (prior_entry),
                         (entry), (155, 0, 255), 2)
                 prior_entry = entry
-
 
 
     def create_map(self,height,width):
@@ -219,16 +219,15 @@ class Tracker():
                             # SET MAX
                             self._max_corners = points_list
                         elif any(index_number == robot for robot in self.ROBOT_IDS):
-                            # print("HIHIHIHIHIHIHIHI")
                             # Define the coordinates based on the origin and max
                             self.define_coordinates(self._origin_corners, self._max_corners,colored_frame)
                             # Get the x,y of the center of the marker
                             x_center, y_center = self.get_center_from_corners(points_list, colored_frame)
-                            # Add the center to the list of markers
+                            # Add the center to the list of robots
                             # print(index_number)
                             self._robots[index_number,0] = x_center
                             self._robots[index_number,1] = y_center
-                            # Get the angle of the marker
+                            # Get the angle of the robot
                             angle = self.get_vectors_and_angle(points_list, colored_frame)
                             self._robots[index_number,2] = angle
                         # If the marker is not robot
@@ -249,7 +248,7 @@ class Tracker():
                     except IndexError:
                         pass
 
-            print("Obstacle array: ",self._obstacle_array)
+            # print("Obstacle array: ",self._obstacle_array)
             self.create_map(cap_height,cap_width)
 
             # print(self.maze)
