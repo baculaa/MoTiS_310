@@ -1,3 +1,5 @@
+# Author: Ethan Villalovoz
+
 # Imports
 import os # Be able to clear screen
 import math # Grabs math trig functions and pi
