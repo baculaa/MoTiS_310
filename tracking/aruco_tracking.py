@@ -25,7 +25,7 @@ class Tracker():
         self.WAIT_TIME = 1
         self.ORIGIN_ID = 1
         self.MAX_ID = 0
-        self.ROBOT_IDS = []
+        self.ROBOT_IDS = [2,4]
 
 
         print("init cap")
@@ -49,6 +49,8 @@ class Tracker():
         self._y_center_max = 1000
 
         self.maze = np.zeros((int(self._x_center_max),int(self._y_center_max)))
+        self._robots = np.zeros((10,3))
+
 
     def get_args(self):
         ### Get camera field of view dimensions ###
@@ -88,7 +90,7 @@ class Tracker():
                  (int(vector2[2]), int(vector2[3])), (0, 0, 255), 2)
 
         angle = (np.degrees(self.angle_between(vector,vector2)) + 360) % 360
-        print(angle)
+        # print(angle)
         return angle
 
     def get_center_from_corners(self,corner_points,frame):
@@ -129,11 +131,11 @@ class Tracker():
         for entry in path:
             if initial_entry == 1:
                 # print("where circle")
-                cv2.circle(image, (entry), 50, (155, 0, 255), 30)
+                cv2.circle(image, (entry), 5, (155, 0, 255), 3)
                 initial_entry = 0
                 prior_entry = entry
             else:
-                cv2.circle(image, (entry), 50, (155, 0, 255), 30)
+                cv2.circle(image, (entry), 5, (155, 0, 255), 3)
                 cv2.line(image, (prior_entry),
                         (entry), (155, 0, 255), 2)
                 prior_entry = entry
@@ -192,8 +194,6 @@ class Tracker():
 
         # If there are markers detected
         if len(self._detected_markers_in_this_frame[0]) > 0:
-            # Init the list of robot markers
-            self._robots = []
 
             # For every detected marker
             for (fids, index) in zip(self._detected_markers_in_this_frame[0], self._detected_markers_in_this_frame[1]):
@@ -201,6 +201,7 @@ class Tracker():
                     try:
                         # Get the index number of the marker
                         index_number = int(index[0])
+                        # print(index_number)
                         # Init the list of corner points
                         points_list = []
 
@@ -217,15 +218,19 @@ class Tracker():
                         elif index_number == self.MAX_ID:
                             # SET MAX
                             self._max_corners = points_list
-                        elif index_number == any(self.ROBOT_IDS):
+                        elif any(index_number == robot for robot in self.ROBOT_IDS):
+                            # print("HIHIHIHIHIHIHIHI")
                             # Define the coordinates based on the origin and max
                             self.define_coordinates(self._origin_corners, self._max_corners,colored_frame)
                             # Get the x,y of the center of the marker
                             x_center, y_center = self.get_center_from_corners(points_list, colored_frame)
                             # Add the center to the list of markers
-                            self._robots.append([x_center, y_center])
+                            # print(index_number)
+                            self._robots[index_number,0] = x_center
+                            self._robots[index_number,1] = y_center
                             # Get the angle of the marker
                             angle = self.get_vectors_and_angle(points_list, colored_frame)
+                            self._robots[index_number,2] = angle
                         # If the marker is not robot
                         else:
                             # FOR NOW ALL OBSTACLES
