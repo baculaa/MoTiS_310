@@ -17,7 +17,7 @@ import sys
 # sys.path.insert(0,"MoTiS_310/MoTiS_310/rrt_algs")
 # from rrt_star_2d2 import rrt_star_wrap
 
-class Tracker():
+class Tracker:
     def __init__(self):
         # Generally:
         # 0 -> in-built camera, 1 -> external USB webcam

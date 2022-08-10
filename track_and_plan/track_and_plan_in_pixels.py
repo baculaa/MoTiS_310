@@ -17,7 +17,7 @@ from a_star import astar
 from geometry_alexedit import geometry
 
 
-class GlobalPlanner():
+class GlobalPlanner:
     def __init__(self):
         self.all_paths = []
 
@@ -87,6 +87,7 @@ class GlobalPlanner():
                                 cv2.circle(image, (int(goal[0]), int(goal[1])), 4, (0, 0, 0), 4)
 
                         cnt += 2
+                        print(self.all_paths)
 
 
 
@@ -110,5 +111,6 @@ if __name__ == '__main__':
     goals = geom.main()
     print(goals)
     planner.main(tracker,goals)
+
 
 

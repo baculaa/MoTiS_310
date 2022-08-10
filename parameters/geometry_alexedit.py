@@ -16,7 +16,7 @@ from random import randint
 
 #seed random number generator
 seed(1)
-class geometry():
+class geometry:
     def __init__(self):
         self.goals = []
 
