@@ -6,6 +6,8 @@ from geometry_alexedit import geometry
 class LocalPlanner:
     def __init__(self):
         pass
+    def get_cmd_vel(self,current_pose,goal_pose):
+        pass
     def main(self,tracker,GlobalPlanner):
         paths = GlobalPlanner.all_paths
 
@@ -19,6 +21,7 @@ class LocalPlanner:
                 current_pose = [int(tracker._robots[robot_id][0]),int(tracker._robots[robot_id][1])]
                 if len(robot_path) < i+goal_increment:
                     goal_pose = robot_path[i+goal_increment]
+                    self.get_cmd_vel(current_pose,goal_pose)
                 else:
                     all_at_goals[robot] = True
 
