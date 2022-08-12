@@ -1,14 +1,17 @@
 from track_and_plan_in_pixels import GlobalPlanner
 from aruco_tracking import Tracker
 from geometry_alexedit import geometry
-
+import numpy as np
 
 class LocalPlanner:
     def __init__(self):
         pass
-    def get_cmd_vel(self,current_pose,goal_pose):
-        pass
-        ## This will make a list of the cmd vel commands to be sent to the robots
+    def get_goal(self,current_pose,current_orientation,goal_pose):
+        goal_orientation = Tracker.angle_between(current_pose,goal_pose)
+        relative_goal_orientation= goal_orientation - current_orientation
+        relative_goal_pose = np.linalg.norm(goal_pose,current_pose)
+        return relative_goal_pose,relative_goal_orientation
+
     def main(self,tracker,GlobalPlanner):
         # Get global paths
         GlobalPlanner.main(tracker, goals)
@@ -23,15 +26,18 @@ class LocalPlanner:
             all_at_goals.append(False)
         # Get a local
         i = 0
-        goal_increment = 10
+        goal_increment = 50
         while not all(all_at_goals):
+            to_send = []
             for robot in range(num_robots):
                 robot_id = tracker.ROBOT_IDS[robot]
                 robot_path = paths[robot]
                 current_pose = [int(tracker._robots[robot_id][0]),int(tracker._robots[robot_id][1])]
+                current_orientation = int(tracker._robots[robot_id][2])
                 if len(robot_path) < i+goal_increment:
                     goal_pose = robot_path[i+goal_increment]
-                    self.get_cmd_vel(current_pose,goal_pose)
+                    relative_goal_pose, relative_goal_orientation = self.get_goal(current_pose,current_orientation,goal_pose)
+                    to_send.append(robot_id,relative_goal_pose,relative_goal_orientation)
                 else:
                     all_at_goals[robot] = True
 
