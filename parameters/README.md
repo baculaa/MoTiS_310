@@ -1,6 +1,10 @@
-geometryScript3.0 Documentation
+Multi-Robot Formation
 
-Hello, my name is Ethan Villalovoz and I am an REU student at Oregon State University: Robots in the Real World. I am a part of the CHARISMA Lab led by Dr. Heather Knight and under the mentorship of Alexandra Bacula. In this documentation, these are the steps of properly using the geometryScript3.0 python program. If there are any questions or inquiries about the program, please do not hesitate to contact me at my email: ethan.villalovoz@gmail.com. With that out of the way let's begin.
+This program takes in reference goal, size, orientation, and number of robots to formulate a geometric shape which is apart of a larger project. Geometry is one of six parameters in a a framework named MOTIS to enable easier design of multi-robot expressive motion.
+
+In this documentation, these are the steps of properly using the geometryScript3.0 python program. If there are any questions or inquiries about the program, please do not hesitate to contact me at my email: ethan.villalovoz@gmail.com. With that out of the way let's begin.
+
+#Getting Started:
 
 Once you start running the program, you will immediately be prompted to select from the various shapes.
 <img width="979" alt="Screen Shot 2022-08-09 at 12 14 26 PM" src="https://user-images.githubusercontent.com/110315314/183742994-c2790a0f-7c30-474d-b450-be8dd61e860a.png">
