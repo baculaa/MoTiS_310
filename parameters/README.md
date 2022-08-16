@@ -4,7 +4,7 @@ This program takes in reference goal, size, orientation, and number of robots to
 
 In this documentation, these are the steps of properly using the geometryScript3.0 python program. If there are any questions or inquiries about the program, please do not hesitate to contact me at my email: ethan.villalovoz@gmail.com. With that out of the way let's begin.
 
-#Getting Started:#
+<h1>Getting Started:</h1>
 
 Once you start running the program, you will immediately be prompted to select from the various shapes.
 <img width="979" alt="Screen Shot 2022-08-09 at 12 14 26 PM" src="https://user-images.githubusercontent.com/110315314/183742994-c2790a0f-7c30-474d-b450-be8dd61e860a.png">
