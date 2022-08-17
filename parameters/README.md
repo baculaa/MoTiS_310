@@ -37,3 +37,9 @@ After this what you will see is all of the final robot positions which they will
 <img width="979" alt="Screen Shot 2022-08-09 at 12 15 49 PM" src="https://user-images.githubusercontent.com/110315314/183743850-3e56d7aa-af95-45cf-b5f4-32eae6320d20.png">
 
 End of program. If you see in the code any improvements please let me know and I will fix it!
+
+<h1>Debugging:</h1>
+
+Part of code to go more indepth on changing what to do.
+Top down run through 
+
