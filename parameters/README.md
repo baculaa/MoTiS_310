@@ -17,12 +17,12 @@ In this documentation, these are the steps of properly using the geometryScript3
 1. First, begin running the program. Once you start running the program, you will immediately be prompted to select from the various shapes.
 <img width="979" alt="Screen Shot 2022-08-09 at 12 14 26 PM" src="https://user-images.githubusercontent.com/110315314/183742994-c2790a0f-7c30-474d-b450-be8dd61e860a.png">
 
-To properly enter a valid input, you must type the name of the shape you want. You do not need to worry about capitalization of any of the letters; however, having a space at the end of input or not including the dash (-) for “semi-circle”, it will continue the program as if you chose line as your input option.
+2. To properly enter a valid input, you must type the name of the shape you want. You do not need to worry about capitalization of any of the letters; however, having a space at the end of input or not including the dash (-) for “semi-circle”, it will continue the program as if you chose line as your input option.
 
 After you choose your wanted shape, you will see this on the console.
 <img width="979" alt="Screen Shot 2022-08-09 at 12 14 54 PM" src="https://user-images.githubusercontent.com/110315314/183743462-b61c8099-e5f5-43b1-9216-b80ea1b75d17.png">
 
-You will be asked to enter information in this order: reference X goal, reference Y goal, radius/length, number of robots, and orientation of shape. Below I will describe each of the inputs:
+3. You will be asked to enter information in this order: reference X goal, reference Y goal, radius/length, number of robots, and orientation of shape. 
 
 With knowing the information now, you must enter them as you see in the example above, you must have a comma in between for the program to parse through and store them into an array. 
 
