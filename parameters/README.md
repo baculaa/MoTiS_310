@@ -6,7 +6,7 @@ In this documentation, these are the steps of properly using the geometryScript3
 
 <h2>Getting Started:</h2>
 
-Once you start running the program, you will immediately be prompted to select from the various shapes.
+1. First, begin running the program. Once you start running the program, you will immediately be prompted to select from the various shapes.
 <img width="979" alt="Screen Shot 2022-08-09 at 12 14 26 PM" src="https://user-images.githubusercontent.com/110315314/183742994-c2790a0f-7c30-474d-b450-be8dd61e860a.png">
 
 To properly enter a valid input, you must type the name of the shape you want. You do not need to worry about capitalization of any of the letters; however, having a space at the end of input or not including the dash (-) for “semi-circle”, it will continue the program as if you chose line as your input option.
