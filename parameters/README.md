@@ -1,4 +1,4 @@
-<h1>Multi-Robot Formation<\h1>
+<h1>Multi-Robot Formation</h1>
 
 This program takes in reference goal, size, orientation, and number of robots to formulate a geometric shape which is apart of a larger project. Geometry is one of six parameters in a a framework named MOTIS to enable easier design of multi-robot expressive motion.
 
