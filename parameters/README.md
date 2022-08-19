@@ -4,6 +4,14 @@ This program takes in reference goal, size, orientation, and number of robots to
 
 In this documentation, these are the steps of properly using the geometryScript3.0 python program. If there are any questions or inquiries about the program, please do not hesitate to contact me at my email: ethan.villalovoz@gmail.com. With that out of the way let's begin.
 
+<h2>Key Terms:</h2>
+
+1. Reference X goal: The robot will be seen on a 2D plane. This is the “origin” which the robot will be placed upon based on the other inputs. This is specifically the X coordinate.
+2. Reference Y goal: The robot will be seen on a 2D plane. This is the “origin” which the robot will be placed upon based on the other inputs. This is specifically the Y coordinate.
+3. Radius/length: Self explanatory, just wants the size of the shape.
+4. Number of robots: Self explanatory; however, must keep in mind that some shapes have different constraints for the minimum required robots.
+5. Orientation of shape: Must enter in degrees, will rotate the shape based on that.
+
 <h2>Getting Started:</h2>
 
 1. First, begin running the program. Once you start running the program, you will immediately be prompted to select from the various shapes.
@@ -15,12 +23,6 @@ After you choose your wanted shape, you will see this on the console.
 <img width="979" alt="Screen Shot 2022-08-09 at 12 14 54 PM" src="https://user-images.githubusercontent.com/110315314/183743462-b61c8099-e5f5-43b1-9216-b80ea1b75d17.png">
 
 You will be asked to enter information in this order: reference X goal, reference Y goal, radius/length, number of robots, and orientation of shape. Below I will describe each of the inputs:
-
-1. Reference X goal: The robot will be seen on a 2D plane. This is the “origin” which the robot will be placed upon based on the other inputs. This is specifically the X coordinate.
-2. Reference Y goal: The robot will be seen on a 2D plane. This is the “origin” which the robot will be placed upon based on the other inputs. This is specifically the Y coordinate.
-3. Radius/length: Self explanatory, just wants the size of the shape.
-4. Number of robots: Self explanatory; however, must keep in mind that some shapes have different constraints for the minimum required robots.
-5. Orientation of shape: Must enter in degrees, will rotate the shape based on that.
 
 With knowing the information now, you must enter them as you see in the example above, you must have a comma in between for the program to parse through and store them into an array. 
 
