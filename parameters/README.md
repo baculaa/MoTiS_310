@@ -46,3 +46,5 @@ In this section, I will be going more in depth of the program from top down. Thi
 
 In the beginning of the main function, print statement and input statements there to show what options and ask the user what shape to choose. Other shapes can be asked here for your purpose. Once the user input is chosen, it is stored in the variable *shape* which is then ran through conditionals to determine which function you will enter and passing in the *shape* as a parameter. 
 
+For each of the shape functions, *shape* parameter will be ran into the userInformation function. The function is desgined to grab 5 inputs in this order: X-Coordinate, Y-Coordinate, length/radius, number of robots, and orientation. X-Coordinate and Y-Coordinate are asked the same for each option *shape* choice, after there are conditional which check the *shape* and enter the conditional to prompt those specific oriented question. As you may, you can take away any of the question you like or add constraints. 
+The format required of entering your input is as follows: (X-Coordinate),(Y-Coordinate),(length/radius),(Number of Robots),(Orientation)
