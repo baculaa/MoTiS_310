@@ -40,8 +40,9 @@ After this what you will see is all of the final robot positions which they will
 
 End of program. If you see in the code any improvements please let me know and I will fix it!
 
-<h1>Debugging:</h1>
+<h2>Debugging:</h2>
 
-Part of code to go more indepth on changing what to do.
-Top down run through 
+In this section, I will be going more in depth of the program from top down. This is to explain what parts of the code could be added/deleted based on your use.
+
+In the beginning of the main function, print statement and input statements there to show what options and ask the user what shape to choose. Other shapes can be asked here for your purpose. Once the user input is chosen, it is stored in the variable *shape* which is then ran through conditionals to determine which function you will enter and passing in the *shape* as a parameter. 
 
