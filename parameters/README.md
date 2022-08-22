@@ -48,7 +48,7 @@ In the beginning of the main function, print statement and input statements ther
 
 For each of the shape functions, *shape* parameter will be ran into the userInformation function. The function is desgined to grab 5 inputs in this order: X-Coordinate, Y-Coordinate, length/radius, number of robots, and orientation. X-Coordinate and Y-Coordinate are asked the same for each option *shape* choice, after there are conditional which check the *shape* and enter the conditional to prompt those specific oriented question. As you may, you can take away any of the question you like or add constraints. 
 The format required of entering your input is as follows: (X-Coordinate),(Y-Coordinate),(length/radius),(Number of Robots),(Orientation)
-The information is then parsed into an array through the comma being a delimiter using this line: [int(x) for x in info.split(',') if x.strip()]
+The information is then parsed into an array through the comma being a delimiter using this line: [int(x) for x in info.split(',') if x.strip()].
 All information will be typecast to an integer and then stored to an index of array starting at the beginning and ending the information at the ,.
 As a safe guard, I implemented a while loop that runs continuously to check if the number of robots in the configuration for the respective shape. The maximum amount of robots for each of the shapes is 10. The minimum amount is for square 4 robots, triangle 3 robots, semi-circle 3 robots, clump 3 robots, circle 3 robots, and line 2 robots. Once this is satisfied, the function returns the array.
 
