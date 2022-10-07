@@ -9,3 +9,4 @@ MoTiS Parameters:
 - Coherence
 
 
+ MoTiS includes six parameters that are adapted to multi-robot systems and take into consideration the challenges of a multi-robot domain. In particular, this framework seeks to extend and coalesce prior concepts from single and multi-robot expressive motion, such as proximity and speed, and also introduces the concept of relativity, i.e., a temporal sequence, movement relative to another agent, or the floor plan of a space.
