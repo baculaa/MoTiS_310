@@ -57,12 +57,11 @@ class Initiator:
 
 
         goal = Point()
-        goal.x = x_goal
-        goal.y = y_goal
-        rospy.loginfo("Going to formation: "+str(x_goal)+", "+str(y_goal))
+        goal.x = goals[0]
+        goal.y = goals[1]
+
         self.mover.move_to_goal_avoidance(goal)
-        rospy.loginfo("Rotating to face ref goal: " + str(orientation))
-        self.mover.final_formation_orientation(orientation)
+
 
 
     def reset_to_home(self):
@@ -111,12 +110,12 @@ class Initiator:
         if self.rob_id < 2:
             # move to -y and +x
             goal_x = x_ref
-            goal_y = y_ref
+            goal_y = -y_ref
         else:
             #move to +y and +x
             goal_x = x_ref
             goal_y = y_ref
-        rospy.loginfo("Goal: " +str(towardsGoal))
+
 
         towardsGoal = [goal_x,goal_y]
 
