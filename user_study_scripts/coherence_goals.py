@@ -38,7 +38,7 @@ class Initiator:
     def __init__(self,mover):
         self.mover = mover
         # self.ref_point = (4, 0)
-        self.rob_id = 0 # all robots will be 0, 1, 2, 3
+        self.rob_id = 1 # all robots will be 0, 1, 2, 3
 
     def get_into_formation(self,x_ref,y_ref,direction):
         # Orientation is relative to the reference point so that the
@@ -141,8 +141,8 @@ if __name__ == '__main__':
 
         #x_ref = ref_point[0]
         #y_ref = ref_point[1]
-        x_ref = 1.5
-        y_ref = 0.5
+        x_ref = 1.25
+        y_ref = 0.65
         ready=raw_input('Go? yes/no').lower()
 
         if ready == 'yes':
