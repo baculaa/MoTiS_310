@@ -150,15 +150,21 @@ class Movement:
 
 
             elif abs(angle_to_goal - self.theta) > 0.1:  # self.delta:
-               if angle_to_goal - self.theta < 0:
-		    while abs(angle_to_goal - self.theta) > self.delta:
-                        self.move.linear.x = 0.0
-                        self.move.angular.z = self.rot_speed  # 0.25
-                        # do something
+                if y > 0:
+                    self.move.linear.x=0.0
+                    self.move.angular.z = self.rot_speed
                 else:
-		    while abs(angle_to_goal - self.theta) > self.delta:
-                        self.move.linear.x = 0.0
-                        self.move.angular.z = -1 * self.rot_speed  # -0.25
+                    self.move.linear.x = 0.0
+                    self.move.angular.z = -self.rot_speed
+                # if angle_to_goal - self.theta < 0:
+                #    while abs(angle_to_goal - self.theta) > self.delta:
+                #        self.move.linear.x = 0.0
+                #        self.move.angular.z = self.rot_speed  # 0.25
+                #         # do something
+                # else:
+                #     while abs(angle_to_goal - self.theta) > self.delta:
+                #         self.move.linear.x = 0.0
+                #         self.move.angular.z = -1 * self.rot_speed  # -0.25
 
             else:
                 if self.moveScan['fleft'] < 0.6 or self.moveScan['fright'] < 0.6:
@@ -201,14 +207,13 @@ class Movement:
 
             elif abs(angle_to_goal - self.theta) > self.delta:
                 if angle_to_goal - self.theta < 0:
-		    while abs(angle_to_goal - self.theta) > self.delta:
-                        self.move.linear.x = 0.0
-                        self.move.angular.z = self.rot_speed*0.9  # 0.25
-                        # do something
+                    self.move.linear.x = 0.0
+                    self.move.angular.z = self.rot_speed*0.9  # 0.25
+                    # do something
                 else:
-		    while abs(angle_to_goal - self.theta) > self.delta:
-                        self.move.linear.x = 0.0
-                        self.move.angular.z = -1 * self.rot_speed*0.9  # -0.25
+
+                    self.move.linear.x = 0.0
+                    self.move.angular.z = -1 * self.rot_speed*0.9  # -0.25
 
             else:
                 if self.moveScan['fleft'] < 0.6 or self.moveScan['fright'] < 0.6:
