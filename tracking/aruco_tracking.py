@@ -24,8 +24,8 @@ class Tracker:
         self.VIDEO_SOURCE_ID = 0
         self.WAIT_TIME = 1
         self.ORIGIN_ID = 1
-        self.MAX_ID = 0
-        self.ROBOT_IDS = [2,4,5,8]
+        self.MAX_ID = 10
+        self.ROBOT_IDS = [0,8,9]
         self.NUM_ROBOTS = len(self.ROBOT_IDS)
 
 
@@ -194,7 +194,7 @@ class Tracker:
 
         # If there are markers detected
         if len(self._detected_markers_in_this_frame[0]) > 0:
-
+            self._robot_corners = []
             # For every detected marker
             for (fids, index) in zip(self._detected_markers_in_this_frame[0], self._detected_markers_in_this_frame[1]):
                 for pt in fids:
@@ -230,6 +230,7 @@ class Tracker:
                             # Get the angle of the robot
                             angle = self.get_vectors_and_angle(points_list, colored_frame)
                             self._robots[index_number,2] = angle
+                            self._robot_corners.append(points_list)
                         # If the marker is not robot
                         else:
                             # FOR NOW ALL OBSTACLES

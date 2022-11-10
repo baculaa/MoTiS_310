@@ -41,7 +41,8 @@ class GlobalPlanner:
         # While camera is detected
         start = 0
         loop_counter = 0
-        while tracker._isCamera:
+        while loop_counter < 2:
+            print(loop_counter)
             colored_frame = tracker.track_frame()
 
             if start == 0:
@@ -87,16 +88,17 @@ class GlobalPlanner:
                                 cv2.circle(image, (int(goal[0]), int(goal[1])), 4, (0, 0, 0), 4)
 
                         cnt += 2
-                        print(self.all_paths)
+                        # print(self.all_paths)
 
 
 
-            # loop_counter += 1
+                loop_counter += 1
                 cv2.imshow('frame', colored_frame)
                 if cv2.waitKey(tracker.WAIT_TIME) & 0xFF == ord('q'):
                     self._cap.release()
                     cv2.destroyAllWindows()
                     sys.exit()
+        return self.all_paths
 
 
 if __name__ == '__main__':

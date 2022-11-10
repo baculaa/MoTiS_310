@@ -25,7 +25,7 @@ def read_csv(filename):
 def main():
     interfaces = socket.getaddrinfo(host=socket.gethostname(), port=None, family=socket.AF_INET)
     allips = [ip[-1][0] for ip in interfaces]
-    goals = read_csv('testgoals.csv')
+    goals = read_csv('track_and_plan/testgoals.csv')
     # msg = b'hello hi world bald'
     i = 0
     while True:
