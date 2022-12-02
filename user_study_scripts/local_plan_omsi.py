@@ -169,7 +169,7 @@ class Movement:
                     self.move.angular.z = -1 * self.rot_speed*0.9  # -0.25
 
             else:
-                if self.moveScan['fleft'] < 0.6 or self.moveScan['fright'] < 0.6:
+                if self.moveScan['fleft'] < self.obs_tol or self.moveScan['fright'] < self.obs_tol:
                     rospy.loginfo("Fleft range is: " + str(self.moveScan['fleft']))
                     rospy.loginfo("Fright range is: " + str(self.moveScan['fleft']))
                     self.move.linear.x = 0.0
