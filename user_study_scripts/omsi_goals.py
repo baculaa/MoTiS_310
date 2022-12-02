@@ -120,9 +120,17 @@ class Initiator:
         goal.y = goals[1]
 
         if waypoint == 6:
-            self.mover.dance()
+            num_wiggle = int(input("How many wiggles?: "))
+            self.mover.dance(num_wiggle)
         else:
             self.mover.move_to_goal_avoidance(goal,l_speed,r_speed)
+            if waypoint == 3:
+                if self.rob_id < 2:
+                    self.mover.final_formation_orientation(90)
+                else:
+                    self.mover.final_formation_orientation(-90)
+            elif waypoint == 4 or waypoint == 5:
+                self.mover.final_formation_orientation(0)
 
 
 

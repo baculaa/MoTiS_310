@@ -37,6 +37,8 @@ class Movement:
         self.cur_y = 0.0
         self.theta = 0.0
 
+        self.obs_tol = 0.6
+
         self.delta = 0.2
 
         self.rot_speed = 0.25
@@ -115,18 +117,10 @@ class Movement:
                 else:
                     self.move.linear.x = 0.0
                     self.move.angular.z = -r_speed
-                # if angle_to_goal - self.theta < 0:
-                #    while abs(angle_to_goal - self.theta) > self.delta:
-                #        self.move.linear.x = 0.0
-                #        self.move.angular.z = self.rot_speed  # 0.25
-                #         # do something
-                # else:
-                #     while abs(angle_to_goal - self.theta) > self.delta:
-                #         self.move.linear.x = 0.0
-                #         self.move.angular.z = -1 * self.rot_speed  # -0.25
+
 
             else:
-                if self.moveScan['fleft'] < 0.6 or self.moveScan['fright'] < 0.6:
+                if self.moveScan['fleft'] < self.obs_tol or self.moveScan['fright'] < self.obs_tol:
                     rospy.loginfo("Fleft range is: " + str(self.moveScan['fleft']))
                     rospy.loginfo("Fright range is: " + str(self.moveScan['fleft']))
                     self.move.linear.x = 0.0
