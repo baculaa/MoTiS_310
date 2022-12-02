@@ -109,7 +109,7 @@ class Movement:
 
 
             elif abs(angle_to_goal - self.theta) > 0.1:  # self.delta:
-                if y > 0:
+                if self.cur_y < y:
                     self.move.linear.x=0.0
                     self.move.angular.z = r_speed
                 else:
@@ -165,7 +165,7 @@ class Movement:
 
 
             elif abs(angle_to_goal - self.theta) > self.delta:
-                if angle_to_goal - self.theta < 0:
+                if self.cur_y < y:
                     self.move.linear.x = 0.0
                     self.move.angular.z = self.rot_speed*0.9  # 0.25
                     # do something
@@ -194,30 +194,23 @@ class Movement:
         self.move.angular.z = 0.0
         self.pub.publish(self.move)
 
-    def dance(self):
+    def dance(self,num_wiggle):
         self.move.linear.x = 0.0
         self.move.angular.z = 0.35
         self.pub.publish(self.move)
         rospy.sleep(0.5)
-        self.move.angular.z = -0.35
-        self.pub.publish(self.move)
-        rospy.sleep(0.5)
-        self.move.angular.z = 0.35
-        self.pub.publish(self.move)
-        rospy.sleep(0.5)
-        self.move.angular.z = -0.35
-        self.pub.publish(self.move)
-        rospy.sleep(0.5)
-        self.move.angular.z = 0.35
-        self.pub.publish(self.move)
-        rospy.sleep(0.5)
-        self.move.angular.z = -0.35
-        self.pub.publish(self.move)
-        rospy.sleep(0.5)
+        for _ in range(num_wiggle):
+            self.move.angular.z = -0.35
+            self.pub.publish(self.move)
+            rospy.sleep(1.0)
+            self.move.angular.z = 0.35
+            self.pub.publish(self.move)
+            rospy.sleep(1.0)
+
 
     def final_formation_orientation(self,orientation):
         rospy.loginfo("Rotating to: "+str(orientation))
-        while abs(self.theta - orientation) > self.delta*0.25:
+        while abs(self.theta - orientation) > self.delta*0.5:
             rospy.loginfo("Need to rotate: "+str(abs(self.theta - orientation)))
             if self.theta < orientation:
                 self.move.linear.x = 0.0

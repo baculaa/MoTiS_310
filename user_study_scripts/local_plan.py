@@ -150,7 +150,7 @@ class Movement:
 
 
             elif abs(angle_to_goal - self.theta) > 0.1:  # self.delta:
-                if y > 0:
+                if self.cur_y < y:
                     self.move.linear.x=0.0
                     self.move.angular.z = self.rot_speed
                 else:
@@ -206,7 +206,7 @@ class Movement:
 
 
             elif abs(angle_to_goal - self.theta) > self.delta:
-                if angle_to_goal - self.theta < 0:
+                if self.cur_y < y
                     self.move.linear.x = 0.0
                     self.move.angular.z = self.rot_speed*0.9  # 0.25
                     # do something
