@@ -63,36 +63,36 @@ class Initiator:
                 x_ref = 1.0
                 y_ref = 0.1
             else:
-                x_ref = 0.8
-                y_ref = 0.1
+                x_ref = 0.5
+                y_ref = -0.5
         elif waypoint == 4:
             # FUNCTIONAL WALL (DOWN LEFT UP RIGHT)
             if self.rob_id == 0:
                 x_ref = -0.5
-                y_ref = 0.15
+                y_ref = -0.55
             elif self.rob_id == 1:
                 x_ref = 0
-                y_ref = 0.15
+                y_ref = -0.55
             elif self.rob_id == 2:
                 x_ref = 0.5
-                y_ref = -0.15
+                y_ref = -0.55
             else:
                 x_ref = 1.0
-                y_ref = -0.15
+                y_ref = -0.55
         elif waypoint == 5:
             # FUNCTIONAL WALL (UP LEFT DOWN RIGHT)
             if self.rob_id == 3:
                 x_ref = -0.5
-                y_ref = -0.15
+                y_ref = 0.55
             elif self.rob_id == 2:
                 x_ref = 0
-                y_ref = -0.15
+                y_ref = 0.55
             elif self.rob_id == 1:
                 x_ref = 0.5
-                y_ref = 0.15
+                y_ref = 0.55
             else:
                 x_ref = 1.0
-                y_ref = 0.15
+                y_ref = 0.55
         else:
             x_ref = 0
             y_ref = 0
@@ -153,7 +153,7 @@ class Initiator:
         else:
             #move to -y and -x
             goal_x = -x_ref
-            goal_y = y_ref
+            goal_y = -y_ref
 
         awayGoal = [goal_x,goal_y]
 
@@ -194,8 +194,8 @@ if __name__ == '__main__':
         initiator = Initiator(mover)
 
 
-        l_speed = int(input('What do you want the forward speed to be. Default to 0.6: '))
-        r_speed = int(input('What do you want the rotational speed to be? Default to 0.25: '))
+        l_speed = float(input('What do you want the forward speed to be. Default to 0.6: '))
+        r_speed = float(input('What do you want the rotational speed to be? Default to 0.25: '))
 
 
         waypoint = int(input('What waypoint would you like? Type Options: 1) towards, 2) away to dancefloor, 3) away to guard, 4) wall 1, 5) wall 2, 6) still: '))
