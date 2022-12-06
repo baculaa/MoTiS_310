@@ -38,7 +38,7 @@ class Initiator:
     def __init__(self,mover):
         self.mover = mover
         # self.ref_point = (4, 0)
-        self.rob_id = 1 # all robots will be 0, 1, 2, 3
+        self.rob_id = 2 # all robots will be 0, 1, 2, 3
 
     def get_into_formation(self,waypoint,l_speed,r_speed):
         if waypoint == 1:
@@ -59,12 +59,12 @@ class Initiator:
                 y_ref = 0.2
         elif waypoint == 3:
             # AWAY TO GUARD
-            if self.rob_id == 1 or self.rob_id == 2:
-                x_ref = 1.0
-                y_ref = 0.1
+            if self.rob_id == 0 or self.rob_id == 3:
+                x_ref = 1.5
+                y_ref = -0.6
             else:
                 x_ref = 0.5
-                y_ref = -0.5
+                y_ref = 0.1
         elif waypoint == 4:
             # FUNCTIONAL WALL (DOWN LEFT UP RIGHT)
             if self.rob_id == 0:
@@ -129,10 +129,10 @@ class Initiator:
             self.mover.move_to_goal_avoidance(goal,l_speed,r_speed)
             if waypoint == 3:
                 if self.rob_id < 2:
-                    self.mover.final_formation_orientation(90)
+                    self.mover.final_formation_orientation(1.57)
                 else:
-                    self.mover.final_formation_orientation(-90)
-            elif waypoint == 4 or waypoint == 5:
+                    self.mover.final_formation_orientation(-1.57)
+            elif waypoint == 4 or waypoint == 5 or waypoint == 8:
                 self.mover.final_formation_orientation(0)
 
 

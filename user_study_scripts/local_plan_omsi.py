@@ -37,7 +37,7 @@ class Movement:
         self.cur_y = 0.0
         self.theta = 0.0
 
-        self.obs_tol = 0.6
+        self.obs_tol = 0.7
 
         self.delta = 0.2
 
@@ -76,8 +76,8 @@ class Movement:
 
     def newLaserScan(self, msg):
         self.moveScan = {
-            'fleft': min(min(msg.ranges[315:]), 0.6),
-            'fright': min(min(msg.ranges[:60]), 0.6)
+            'fleft': min(min(msg.ranges[300:]), self.obs_tol),
+            'fright': min(min(msg.ranges[:45]), self.obs_tol)
         }
 
         # curGoal is of type Point()
