@@ -207,18 +207,18 @@ class Movement:
         self.pub.publish(self.move)
         rospy.sleep(0.5)
         for _ in range(num_wiggle):
-            self.move.linear.x = -0.5
+            self.move.linear.x = -0.65
             self.pub.publish(self.move)
-            rospy.sleep(1.0)
+            rospy.sleep(1.5)
             self.move.linear.x = 0.5
             self.pub.publish(self.move)
             rospy.sleep(1.0)
 
 
     def final_formation_orientation(self,orientation):
-        rospy.loginfo("Rotating to: "+str(orientation))
+        #rospy.loginfo("Rotating to: "+str(orientation))
         while abs(self.theta - orientation) > self.delta*0.5:
-            rospy.loginfo("Need to rotate: "+str(abs(self.theta - orientation)))
+            #rospy.loginfo("Need to rotate: "+str(abs(self.theta - orientation)))
             if self.theta < orientation:
                 self.move.linear.x = 0.0
                 self.move.angular.z = self.rot_speed  # 0.25

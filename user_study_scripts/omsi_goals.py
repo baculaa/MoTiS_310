@@ -52,10 +52,10 @@ class Initiator:
         elif waypoint == 2:
             # AWAY TO DANCEFLOOR
             if self.rob_id == 0 or self.rob_id == 3:
-                x_ref = 1.0
+                x_ref = 1.75
                 y_ref = 0.4
             else:
-                x_ref = 1.0
+                x_ref = 1.75
                 y_ref = 0.2
         elif waypoint == 3:
             # AWAY TO GUARD
