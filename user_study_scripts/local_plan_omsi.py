@@ -201,6 +201,19 @@ class Movement:
             self.pub.publish(self.move)
             rospy.sleep(1.0)
 
+    def dance_villain(self,num_wiggle):
+        self.move.linear.x = 0.5
+        self.move.angular.z = 0.0
+        self.pub.publish(self.move)
+        rospy.sleep(0.5)
+        for _ in range(num_wiggle):
+            self.move.linear.x = -0.5
+            self.pub.publish(self.move)
+            rospy.sleep(1.0)
+            self.move.linear.x = 0.5
+            self.pub.publish(self.move)
+            rospy.sleep(1.0)
+
 
     def final_formation_orientation(self,orientation):
         rospy.loginfo("Rotating to: "+str(orientation))

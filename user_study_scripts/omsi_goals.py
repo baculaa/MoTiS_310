@@ -122,6 +122,9 @@ class Initiator:
         if waypoint == 6:
             num_wiggle = int(input("How many wiggles?: "))
             self.mover.dance(num_wiggle)
+        elif waypoint == 7:
+            num_wiggle = int(input("How many wiggles?: "))
+            self.mover.dance_villain(num_wiggle)
         else:
             self.mover.move_to_goal_avoidance(goal,l_speed,r_speed)
             if waypoint == 3:
@@ -206,7 +209,7 @@ if __name__ == '__main__':
         r_speed = float(input('What do you want the rotational speed to be? Default to 0.25: '))
 
 
-        waypoint = int(input('What waypoint would you like? Type Options: 1) towards, 2) away to dancefloor, 3) away to guard, 4) wall 1, 5) wall 2, 6) still: '))
+        waypoint = int(input('What waypoint would you like? Type Options: 1) towards, 2) away to dancefloor, 3) away to guard, 4) wall 1, 5) wall 2, 6) dance hero 7) dance villain, 8) still: '))
 
         # THE REFERENCE POINT IS RELATIVE TO ROBOT 0, ROBOT 0 IS CONSIDERED 0,0
         #ref_point_input = input('Where would you like the shape to go? Ex. 3,3: ')
@@ -229,7 +232,7 @@ if __name__ == '__main__':
 
 
         while again == 'y':
-            waypoint = int(input('What waypoint would you like? Type Options: 1) towards, 2) away to dancefloor, 3) away to guard, 4) wall 1, 5) wall 2, 6) dance, 7)still: '))
+            waypoint = int(input('What waypoint would you like? Type Options: 1) towards, 2) away to dancefloor, 3) away to guard, 4) wall 1, 5) wall 2, 6) dance hero, 7) dance villain, 8) still: '))
             initiator.get_into_formation(waypoint, l_speed, r_speed)
             again = raw_input('Another waypoint? (y/n): ').lower()
 
