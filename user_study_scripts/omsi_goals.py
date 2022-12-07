@@ -68,31 +68,31 @@ class Initiator:
         elif waypoint == 4:
             # FUNCTIONAL WALL (DOWN LEFT UP RIGHT)
             if self.rob_id == 0:
-                x_ref = 0.0
-                y_ref = -0.75
+                x_ref = 0.5
+                y_ref = -1.25
             elif self.rob_id == 1:
-                x_ref = 0.3
+                x_ref = 0.65
                 y_ref = -0.85
             elif self.rob_id == 2:
-                x_ref = 0.6
-                y_ref = 0.15
+                x_ref = 0.75
+                y_ref = 0.4
             else:
-                x_ref = 1.0
-                y_ref = 0.35
+                x_ref = 1.25
+                y_ref = 0.75
         elif waypoint == 5:
             # FUNCTIONAL WALL (UP LEFT DOWN RIGHT)
             if self.rob_id == 3:
-                x_ref = 0.0
-                y_ref = 0.75
+                x_ref = 0.5
+                y_ref = 1.25
             elif self.rob_id == 2:
-                x_ref = 0.3
+                x_ref = 0.65
                 y_ref = 0.85
             elif self.rob_id == 1:
-                x_ref = 0.6
-                y_ref = -0.15
+                x_ref = 0.75
+                y_ref = -0.4
             else:
-                x_ref = 1.0
-                y_ref = -0.35
+                x_ref = 1.25
+                y_ref = -0.75
         else:
             x_ref = 0
             y_ref = 0
